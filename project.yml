@@ -1,0 +1,53 @@
+name: HardwarePulse
+options:
+  bundleIdPrefix: com.example
+  deploymentTarget:
+    macOS: "14.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: 1
+
+targets:
+  HardwarePulse:
+    type: application
+    platform: macOS
+    sources:
+      - Sources/HostApp
+      - Sources/Core
+    dependencies:
+      - target: HardwarePulseWidget
+        embed: true
+      - sdk: WidgetKit.framework
+      - sdk: SwiftUI.framework
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.hardwarepulse
+        INFOPLIST_KEY_LSUIElement: YES
+        ENABLE_APP_SANDBOX: YES
+        ENABLE_HARDENED_RUNTIME: YES
+        APP_GROUP_ID: group.com.example.hardwarepulse
+        CODE_SIGN_ENTITLEMENTS: Sources/HostApp/HardwarePulse.entitlements
+    info:
+      path: Sources/HostApp/Info.plist
+      properties:
+        LSMinimumSystemVersion: "14.0"
+
+  HardwarePulseWidget:
+    type: app-extension
+    platform: macOS
+    sources:
+      - Sources/Widget
+      - Sources/Core
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.hardwarepulse.widget
+        INFOPLIST_KEY_NSExtension_NSExtensionPointIdentifier: com.apple.widgetkit-extension
+        CODE_SIGN_ENTITLEMENTS: Sources/Widget/HardwarePulseWidget.entitlements
+    info:
+      path: Sources/Widget/Info.plist
+      properties:
+        LSMinimumSystemVersion: "14.0"
