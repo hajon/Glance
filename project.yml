@@ -1,4 +1,4 @@
-name: HardwarePulse
+name: Glance
 options:
   bundleIdPrefix: com.example
   deploymentTarget:
@@ -12,31 +12,31 @@ settings:
     CURRENT_PROJECT_VERSION: 1
 
 targets:
-  HardwarePulse:
+  Glance:
     type: application
     platform: macOS
     sources:
       - Sources/HostApp
       - Sources/Core
     dependencies:
-      - target: HardwarePulseWidget
+      - target: GlanceWidget
         embed: true
       - sdk: WidgetKit.framework
       - sdk: SwiftUI.framework
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.example.hardwarepulse
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.glance
         INFOPLIST_KEY_LSUIElement: YES
         ENABLE_APP_SANDBOX: YES
         ENABLE_HARDENED_RUNTIME: YES
-        APP_GROUP_ID: group.com.example.hardwarepulse
-        CODE_SIGN_ENTITLEMENTS: Sources/HostApp/HardwarePulse.entitlements
+        APP_GROUP_ID: group.com.example.glance
+        CODE_SIGN_ENTITLEMENTS: Sources/HostApp/Glance.entitlements
     info:
       path: Sources/HostApp/Info.plist
       properties:
         LSMinimumSystemVersion: "14.0"
 
-  HardwarePulseWidget:
+  GlanceWidget:
     type: app-extension
     platform: macOS
     sources:
@@ -44,9 +44,9 @@ targets:
       - Sources/Core
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.example.hardwarepulse.widget
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.glance.widget
         INFOPLIST_KEY_NSExtension_NSExtensionPointIdentifier: com.apple.widgetkit-extension
-        CODE_SIGN_ENTITLEMENTS: Sources/Widget/HardwarePulseWidget.entitlements
+        CODE_SIGN_ENTITLEMENTS: Sources/Widget/GlanceWidget.entitlements
     info:
       path: Sources/Widget/Info.plist
       properties:

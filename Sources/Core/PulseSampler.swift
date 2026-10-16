@@ -161,9 +161,9 @@ public final class PulseSampler: @unchecked Sendable {
     #endif
 
     /// Captures one full pulse snapshot.
-    public func sample() -> HardwarePulse {
+    public func sample() -> GlancePulse {
         let (used, total) = memoryUsage()
-        return HardwarePulse(
+        return GlancePulse(
             cpuUsage: cpuUsage(),
             memoryUsage: total > 0 ? used / total * 100 : 0,
             memoryTotal: total,

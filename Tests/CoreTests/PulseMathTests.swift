@@ -2,7 +2,7 @@
 // Unit tests for the pure derivation logic (compile on any platform).
 
 import XCTest
-@testable import HardwarePulseCore
+@testable import GlanceCore
 
 final class PulseMathTests: XCTestCase {
     func testUsageDelta() {
@@ -31,10 +31,10 @@ final class PulseMathTests: XCTestCase {
     }
 
     func testStaleness() {
-        let fresh = HardwarePulse(
+        let fresh = GlancePulse(
             timestamp: Date(), cpuUsage: 10, memoryUsage: 50, memoryTotal: 100, diskUsage: 40
         )
-        let stale = HardwarePulse(
+        let stale = GlancePulse(
             timestamp: Date(timeIntervalSinceNow: -1000),
             cpuUsage: 10, memoryUsage: 50, memoryTotal: 100, diskUsage: 40
         )
@@ -43,7 +43,7 @@ final class PulseMathTests: XCTestCase {
     }
 
     func testCodableRoundTrip() throws {
-        let pulse = HardwarePulse(
+        let pulse = GlancePulse(
             cpuUsage: 42.5, memoryUsage: 60, memoryTotal: 17_179_869_184,
             gpuUsage: 12.5, diskUsage: 70
         )
@@ -52,7 +52,7 @@ final class PulseMathTests: XCTestCase {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         let data = try encoder.encode(pulse)
-        let decoded = try decoder.decode(HardwarePulse.self, from: data)
+        let decoded = try decoder.decode(GlancePulse.self, from: data)
         XCTAssertEqual(pulse, decoded)
     }
 }

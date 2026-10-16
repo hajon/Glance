@@ -1,4 +1,4 @@
-// HardwarePulseWidgetBundle.swift
+// GlanceWidgetBundle.swift
 // WidgetKit extension: desktop, StandBy, and lock-screen widgets showing
 // CPU / memory / GPU / disk utilization.
 
@@ -6,22 +6,22 @@ import WidgetKit
 import SwiftUI
 
 @main
-struct HardwarePulseWidgetBundle: WidgetBundle {
+struct GlanceWidgetBundle: WidgetBundle {
     var body: some Widget {
-        HardwarePulseWidget()
+        GlanceWidget()
     }
 }
 
 struct PulseEntry: TimelineEntry {
     let date: Date
-    let pulse: HardwarePulse?
+    let pulse: GlancePulse?
 }
 
 struct PulseProvider: TimelineProvider {
     func placeholderEntry() -> PulseEntry {
         PulseEntry(
             date: Date(),
-            pulse: HardwarePulse(
+            pulse: GlancePulse(
                 cpuUsage: 23, memoryUsage: 54, memoryTotal: 17179869184, diskUsage: 68
             )
         )
@@ -32,7 +32,7 @@ struct PulseProvider: TimelineProvider {
     }
 
     func getSnapshot(in context: Context, completion: @escaping (PulseEntry) -> Void) {
-        if let pulse = HardwarePulseStore.load(appGroupID: WidgetConfiguration.appGroupID) {
+        if let pulse = GlancePulseStore.load(appGroupID: WidgetConfiguration.appGroupID) {
             completion(PulseEntry(date: Date(), pulse: pulse))
         } else {
             completion(placeholderEntry())
@@ -40,7 +40,7 @@ struct PulseProvider: TimelineProvider {
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<PulseEntry>) -> Void) {
-        guard let pulse = HardwarePulseStore.load(appGroupID: WidgetConfiguration.appGroupID) else {
+        guard let pulse = GlancePulseStore.load(appGroupID: WidgetConfiguration.appGroupID) else {
             completion(Timeline(entries: [placeholderEntry()], policy: .atEnd))
             return
         }
@@ -51,19 +51,19 @@ struct PulseProvider: TimelineProvider {
 }
 
 enum WidgetConfiguration {
-    static let appGroupID = "group.com.example.hardwarepulse"
+    static let appGroupID = "group.com.example.glance"
 }
 
-struct HardwarePulseWidget: Widget {
+struct GlanceWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(
-            kind: "HardwarePulseWidget",
+            kind: "GlanceWidget",
             provider: PulseProvider()
         ) { entry in
-            HardwarePulseWidgetView(entry: entry)
+            GlanceWidgetView(entry: entry)
                 .containerBackground(.fill.tertiary, for: .widget)
         }
-        .configurationDisplayName("Hardware Pulse")
+        .configurationDisplayName("Glance")
         .description("Live CPU, memory, GPU, and disk utilization.")
         .supportedFamilies([
             .systemSmall,

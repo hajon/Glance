@@ -10,7 +10,7 @@ struct MenuBarContentView: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Image(systemName: "speedometer")
-                Text("Hardware Pulse")
+                Text("Glance")
                     .font(.headline)
                 Spacer()
                 Text(model.pulse.timestamp, style: .relative)
@@ -65,10 +65,10 @@ struct GaugeRow: View {
 }
 
 final class MenuBarModel: ObservableObject {
-    static func usedBytes(for pulse: HardwarePulse) -> Double {
+    static func usedBytes(for pulse: GlancePulse) -> Double {
         pulse.memoryTotal * pulse.memoryUsage / 100
     }
-    @Published var pulse = HardwarePulse(
+    @Published var pulse = GlancePulse(
         cpuUsage: 0, memoryUsage: 0, memoryTotal: 0, diskUsage: 0
     )
     private var timer: Timer?

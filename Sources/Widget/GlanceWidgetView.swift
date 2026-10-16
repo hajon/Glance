@@ -1,10 +1,10 @@
-// HardwarePulseWidgetView.swift
+// GlanceWidgetView.swift
 // Widget views for each size family.
 
 import SwiftUI
 import WidgetKit
 
-struct HardwarePulseWidgetView: View {
+struct GlanceWidgetView: View {
     @Environment(\.widgetFamily) private var family
     let entry: PulseEntry
 
@@ -18,7 +18,7 @@ struct HardwarePulseWidgetView: View {
     }
 
     @ViewBuilder
-    private func content(_ pulse: HardwarePulse) -> some View {
+    private func content(_ pulse: GlancePulse) -> some View {
         switch family {
         case .systemSmall: SmallView(pulse: pulse)
         case .systemMedium: MediumView(pulse: pulse)
@@ -31,11 +31,11 @@ struct HardwarePulseWidgetView: View {
 }
 
 struct SmallView: View {
-    let pulse: HardwarePulse
+    let pulse: GlancePulse
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Label("Hardware Pulse", systemImage: "speedometer")
+            Label("Glance", systemImage: "speedometer")
                 .font(.caption.weight(.semibold))
                 .lineLimit(1)
             MetricRow(label: "CPU", value: pulse.cpuUsage, color: .blue)
@@ -50,7 +50,7 @@ struct SmallView: View {
 }
 
 struct MediumView: View {
-    let pulse: HardwarePulse
+    let pulse: GlancePulse
 
     var body: some View {
         HStack(spacing: 12) {
@@ -91,7 +91,7 @@ struct MediumView: View {
 }
 
 struct CircularView: View {
-    let pulse: HardwarePulse
+    let pulse: GlancePulse
 
     var body: some View {
         Gauge(value: pulse.cpuUsage, in: 0...100) {
@@ -105,7 +105,7 @@ struct CircularView: View {
 }
 
 struct InlineView: View {
-    let pulse: HardwarePulse
+    let pulse: GlancePulse
 
     var body: some View {
         Text("CPU \(String(format: "%.0f%%", pulse.cpuUsage)) · RAM \(String(format: "%.0f%%", pulse.memoryUsage))")
@@ -113,11 +113,11 @@ struct InlineView: View {
 }
 
 struct RectangularView: View {
-    let pulse: HardwarePulse
+    let pulse: GlancePulse
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Hardware Pulse")
+            Text("Glance")
                 .font(.headline)
             Text("CPU \(String(format: "%.0f%%", pulse.cpuUsage))")
             Text("RAM \(String(format: "%.0f%%", pulse.memoryUsage))")
@@ -134,7 +134,7 @@ struct UnavailableView: View {
         ContentUnavailableView(
             "Waiting for data",
             systemImage: "speedometer",
-            description: Text("Launch the Hardware Pulse menu bar app to start sampling.")
+            description: Text("Launch the Glance menu bar app to start sampling.")
         )
     }
 }

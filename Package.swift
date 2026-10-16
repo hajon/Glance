@@ -2,10 +2,10 @@
 import PackageDescription
 
 let package = Package(
-    name: "HardwarePulseCore",
+    name: "GlanceCore",
     platforms: [.macOS(.v14)],
     products: [
-        .library(name: "HardwarePulseCore", targets: ["Core"])
+        .library(name: "GlanceCore", targets: ["Core"])
     ],
     targets: [
         .target(

@@ -1,10 +1,10 @@
-// HardwarePulse.swift
+// GlancePulse.swift
 // Shared data model exchanged between the host app and the widget extension
 // through the shared App Group container.
 
 import Foundation
 
-public struct HardwarePulse: Codable, Equatable, Sendable {
+public struct GlancePulse: Codable, Equatable, Sendable {
     public var timestamp: Date
     public var cpuUsage: Double
     public var memoryUsage: Double
@@ -33,14 +33,14 @@ public struct HardwarePulse: Codable, Equatable, Sendable {
     }
 }
 
-public enum HardwarePulseStore {
+public enum GlancePulseStore {
     public static func url(appGroupID: String) -> URL? {
         FileManager.default
             .containerURL(forSecurityApplicationGroupIdentifier: appGroupID)?
-            .appendingPathComponent("hardware-pulse.json")
+            .appendingPathComponent("glance-pulse.json")
     }
 
-    public static func save(_ pulse: HardwarePulse, appGroupID: String) {
+    public static func save(_ pulse: GlancePulse, appGroupID: String) {
         guard let url = url(appGroupID: appGroupID) else { return }
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601
@@ -49,11 +49,11 @@ public enum HardwarePulseStore {
         }
     }
 
-    public static func load(appGroupID: String) -> HardwarePulse? {
+    public static func load(appGroupID: String) -> GlancePulse? {
         guard let url = url(appGroupID: appGroupID),
               let data = try? Data(contentsOf: url) else { return nil }
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
-        return try? decoder.decode(HardwarePulse.self, from: data)
+        return try? decoder.decode(GlancePulse.self, from: data)
     }
 }
