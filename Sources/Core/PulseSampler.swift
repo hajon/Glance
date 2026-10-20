@@ -38,6 +38,7 @@ public enum PulseMath {
     }
 }
 
+#if canImport(Darwin)
 public final class PulseSampler: @unchecked Sendable {
     private var previousTicks: CPUUsage?
 
@@ -63,10 +64,18 @@ public final class PulseSampler: @unchecked Sendable {
         guard result == KERN_SUCCESS else {
             return CPUUsage(user: 0, system: 0, idle: 100)
         }
+        let ticks = withUnsafePointer(to: cpuLoad.cpu_ticks) { ptr in
+            ptr.withMemoryRebound(to: natural_t.self, capacity: Int(CPU_STATE_MAX)) {
+                Array(UnsafeBufferPointer(start: $0, count: Int(CPU_STATE_MAX)))
+            }
+        }
+        func tick(_ state: Int32) -> Double {
+            Int(state) < ticks.count ? Double(ticks[Int(state)]) : 0
+        }
         return CPUUsage(
-            user: Double(cpuLoad.cpu_ticks[CPU_STATE_USER]),
-            system: Double(cpuLoad.cpu_ticks[CPU_STATE_SYSTEM]),
-            idle: Double(cpuLoad.cpu_ticks[CPU_STATE_IDLE])
+            user: tick(CPU_STATE_USER),
+            system: tick(CPU_STATE_SYSTEM),
+            idle: tick(CPU_STATE_IDLE)
         )
     }
 
@@ -172,3 +181,4 @@ public final class PulseSampler: @unchecked Sendable {
         )
     }
 }
+#endif
