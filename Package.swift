@@ -9,12 +9,12 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "Core",
+            name: "GlanceCore",
             path: "Sources/Core"
         ),
         .testTarget(
             name: "CoreTests",
-            dependencies: ["Core"],
+            dependencies: ["GlanceCore"],
             path: "Tests/CoreTests"
         )
     ]
