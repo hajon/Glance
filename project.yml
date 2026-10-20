@@ -12,13 +12,22 @@ settings:
     CURRENT_PROJECT_VERSION: 1
 
 targets:
+  GlanceCore:
+    type: framework
+    platform: macOS
+    sources:
+      - Sources/Core
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.glance.core
+
   Glance:
     type: application
     platform: macOS
     sources:
       - Sources/HostApp
-      - Sources/Core
     dependencies:
+      - target: GlanceCore
       - target: GlanceWidget
         embed: true
       - sdk: WidgetKit.framework
@@ -41,7 +50,8 @@ targets:
     platform: macOS
     sources:
       - Sources/Widget
-      - Sources/Core
+    dependencies:
+      - target: GlanceCore
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.example.glance.widget
@@ -51,3 +61,20 @@ targets:
       path: Sources/Widget/Info.plist
       properties:
         LSMinimumSystemVersion: "14.0"
+
+  GlanceTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - Tests/CoreTests
+    dependencies:
+      - target: GlanceCore
+
+schemes:
+  Glance:
+    build:
+      targets:
+        Glance: all
+    test:
+      targets:
+        - GlanceTests

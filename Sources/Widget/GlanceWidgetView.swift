@@ -3,6 +3,7 @@
 
 import SwiftUI
 import WidgetKit
+import GlanceCore
 
 struct GlanceWidgetView: View {
     @Environment(\.widgetFamily) private var family

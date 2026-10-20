@@ -4,6 +4,7 @@
 
 import SwiftUI
 import WidgetKit
+import GlanceCore
 
 @main
 struct GlanceApp: App {

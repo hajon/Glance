@@ -2,6 +2,7 @@
 // Popover UI shown from the menu bar item.
 
 import SwiftUI
+import GlanceCore
 
 struct MenuBarContentView: View {
     @StateObject private var model = MenuBarModel()
