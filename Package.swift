@@ -5,7 +5,7 @@ let package = Package(
     name: "GlanceCore",
     platforms: [.macOS(.v14)],
     products: [
-        .library(name: "GlanceCore", targets: ["Core"])
+        .library(name: "GlanceCore", targets: ["GlanceCore"])
     ],
     targets: [
         .target(
