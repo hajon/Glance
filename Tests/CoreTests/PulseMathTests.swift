@@ -9,9 +9,9 @@ final class PulseMathTests: XCTestCase {
         let previous = CPUUsage(user: 100, system: 50, idle: 50)
         let current = CPUUsage(user: 150, system: 60, idle: 90)
         let result = PulseMath.usage(from: previous, to: current)
-        XCTAssertEqual(result.user, 50.0 / 150.0 * 100, accuracy: 0.001)
-        XCTAssertEqual(result.system, 10.0 / 150.0 * 100, accuracy: 0.001)
-        XCTAssertEqual(result.idle, 40.0 / 150.0 * 100, accuracy: 0.001)
+        XCTAssertEqual(result.user, 50.0 / 100.0 * 100, accuracy: 0.001)
+        XCTAssertEqual(result.system, 10.0 / 100.0 * 100, accuracy: 0.001)
+        XCTAssertEqual(result.idle, 40.0 / 100.0 * 100, accuracy: 0.001)
         XCTAssertEqual(result.total, 100.0 - result.idle, accuracy: 0.001)
     }
 
@@ -27,7 +27,7 @@ final class PulseMathTests: XCTestCase {
         let current = CPUUsage(user: 80, system: 60, idle: 60)
         let result = PulseMath.usage(from: previous, to: current)
         XCTAssertEqual(result.user, 0, accuracy: 0.001)
-        XCTAssertEqual(result.system, 10.0 / 40.0 * 100, accuracy: 0.001)
+        XCTAssertEqual(result.system, 10.0 / 20.0 * 100, accuracy: 0.001)
     }
 
     func testStaleness() {
@@ -44,6 +44,7 @@ final class PulseMathTests: XCTestCase {
 
     func testCodableRoundTrip() throws {
         let pulse = GlancePulse(
+            timestamp: Date(timeIntervalSince1970: 1_700_000_000),
             cpuUsage: 42.5, memoryUsage: 60, memoryTotal: 17_179_869_184,
             gpuUsage: 12.5, diskUsage: 70
         )
